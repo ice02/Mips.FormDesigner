@@ -1,0 +1,21 @@
+﻿@inherits WidgetComponentBase
+
+<form>
+    <div class="form-group">
+        <label for="@Component.Id"
+               class="col-form-label">
+            @Component.Label
+        </label>
+        <MatRadioGroup GroupName="gender" @bind-Value="@GenVal" TValue="string">
+            <MatRadioButton Value="@string.Empty" TValue="string">Default</MatRadioButton>
+            <MatRadioButton Value="@("f")" Label="Female" TValue="string"></MatRadioButton>
+            <MatRadioButton Value="@("m")" TValue="string">Male</MatRadioButton>
+        </MatRadioGroup>
+    </div>
+</form>
+
+
+
+@code {
+    private string GenVal;
+}

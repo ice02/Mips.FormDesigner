@@ -1,0 +1,44 @@
+﻿@if (ContainerData != null && ContainerData.Rows != null && ContainerData.Rows.Count > 0)
+{
+    <form>
+    <div class="container-wrapper">
+        <div class="widget-wrapper">
+            
+        @foreach (var currentRow in ContainerData.Rows)
+        {
+            <div class="row" style="margin-left:0; margin-right:0;">
+
+           @{
+                int i = 0;
+                foreach (var currentComponent in currentRow)
+                {
+                    string componentColumnWidth = ComponentUtils.GetComponentColumnCssClasses(currentComponent);
+                    <ComponentRendering ComponentData="@currentComponent"
+                               ComponentRow="@currentRow"
+                               ComponentIndex="@i"
+                               Class="@componentColumnWidth" />
+                    i++;
+                }
+            }
+
+            </div>
+        }
+        </div>
+    </div>
+
+        @if (!IsSubForm)
+        {
+            <MatButton Type="Submit" >Submit for test</MatButton>
+        }
+
+    </form>
+    //TODO: add validate button to have a sample of results
+}
+
+@code {
+    [Parameter]
+    public ContainerDto ContainerData { get; set; }
+
+    [Parameter]
+    public bool IsSubForm { get; set; } = false;
+}

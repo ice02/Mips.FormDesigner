@@ -1,0 +1,29 @@
+﻿@inherits WidgetComponentBase
+
+<form>
+    <div class="form-group">
+        @if (Component.IsMandatory)
+        {
+            <label for="@Component.Id"
+                   class="col-form-label">
+                @Component.Label *
+            </label>
+        }
+        else
+        {
+            <label for="@Component.Id"
+                   class="col-form-label">
+                @Component.Label
+            </label>
+        }
+        <input id="@Component.Id"
+               type="datetime"
+               class="form-control"
+               placeholder="dd-mm-yyyy"/>
+    </div>
+</form>
+
+
+@code {
+
+}

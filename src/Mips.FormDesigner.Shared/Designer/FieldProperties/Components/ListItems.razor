@@ -1,0 +1,77 @@
+﻿@*Add item button*@
+@*Items list*@
+
+@inject System.Net.Http.HttpClient Http
+
+<MatIconButton Icon="@MatIconNames.Add_circle_outline" OnClick="@AddValue"></MatIconButton>
+
+
+<MatTable Items="@Items" class="mat-elevation-z5" ShowPaging="false">
+    <MatTableHeader>
+        <th>Key</th>
+        <th>Value</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.Key</td>
+        <td><input value="@context.Value" /> </td>
+    </MatTableRow>
+</MatTable>
+
+
+<MatDialog @bind-IsOpen="@dialogIsOpen">
+    <MatDialogTitle>Add a value</MatDialogTitle>
+    <MatDialogContent>
+        <p>Value: </p>
+        <MatTextField @bind-Value="@dialogValue"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@(e => { dialogIsOpen = false; })">Cancel</MatButton>
+        <MatButton OnClick="@OkClick">OK</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+    bool dialogIsOpen = false;
+    string dialogValue = null;
+
+    [Parameter]
+    public Dictionary<int, string> Items { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnItemAdded { get; set; }
+
+    //protected override void OnInitialized()
+    //{
+    //    //Items = new Dictionary<int, string>();
+    //    AddValue();
+
+    //    base.OnInitialized();
+    //}
+
+    async Task AddValue()
+    {
+
+        var max = 0;
+        if (Items != null && Items.Count > 0)
+        {
+            max = Items.Keys.Max();
+        }
+
+        //Items.Add(max + 1, "test");
+
+        var arg = new ChangeEventArgs() { Value = new KeyValuePair<int, string>(max + 1, "test") };
+        await OnItemAdded.InvokeAsync(arg);
+
+        //await FormDesigner.StateHasChangedAsync();
+        //dialogValue = null;
+        //dialogIsOpen = true;
+    }
+
+    void OkClick()
+    {
+        var max = Items.Keys.Max();
+
+        Items.Add(max+1, dialogValue);
+        dialogIsOpen = false;
+    }
+}

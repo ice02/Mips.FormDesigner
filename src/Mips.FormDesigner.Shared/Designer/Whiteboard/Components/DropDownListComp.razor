@@ -1,0 +1,82 @@
+﻿@inherits WidgetComponentBase
+
+@if (!IsRendering)
+{
+<form>
+    <div class="form-group">
+        @if (Component.IsMandatory)
+        {
+            <label for="@Component.Id"
+                   class="col-form-label">
+                @Component.Label *
+            </label>
+        }
+        else
+        {
+            <label for="@Component.Id"
+                   class="col-form-label">
+                @Component.Label
+            </label>
+        }
+        <div class="justify-content-start">
+            <MatSelect Label="@Component.Label" TValue="int" FullWidth="true">
+                <MatOption TValue="int" Value="-1">Default</MatOption>
+                @if (@ComponentInternal.Items != null)
+                {
+                    foreach (var item in @ComponentInternal.Items)
+                    {
+                        @if (item.Key == ComponentInternal.DefaultValue)
+                        { 
+                            <MatOption TValue="int" Value="@item.Key">@item.Value</MatOption>
+                        }
+                        else
+                        {
+                            <MatOption TValue="int" Value="@item.Key">@item.Value</MatOption>
+                        }
+                    }
+                }
+            </MatSelect>
+            
+        </div>
+    </div>
+    </form>
+}
+else
+{
+    
+            <div class="justify-content-start">
+                <MatSelect Label="@Component.Label" TValue="int" FullWidth="true">
+                    <MatOption TValue="int" Value="-1">Default</MatOption>
+                    @if (@ComponentInternal.Items != null)
+                    {
+                        foreach (var item in @ComponentInternal.Items)
+                        {
+                            @if (item.Key == ComponentInternal.DefaultValue)
+                            {
+                                <MatOption TValue="int" Value="@item.Key">@item.Value</MatOption>
+                            }
+                            else
+                            {
+                                <MatOption TValue="int" Value="@item.Key">@item.Value</MatOption>
+                            }
+                        }
+                    }
+                </MatSelect>
+
+            </div>
+}
+@code {
+    [Parameter]
+    public bool IsRendering { get; set; } = false;
+
+    private Models.Components.DropDownListDto ComponentInternal { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ComponentInternal = Component as Models.Components.DropDownListDto;
+
+        StateHasChanged();
+
+        base.OnParametersSet();
+    }
+}

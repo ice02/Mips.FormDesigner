@@ -1,0 +1,81 @@
+﻿@{
+    string tabsContainerClass = ComponentData?.Type == ComponentType.Tabs ? "container-element" : "";
+}
+
+<div class="component-element @Class @tabsContainerClass">
+    
+            @switch (ComponentData?.Type)
+            {
+                case ComponentType.DropDownList:
+                    <DropDownListComp Component="@ComponentData"
+                        IsRendering = "true"/>
+                    break;
+
+                case ComponentType.SingleLine:
+                    <SingleLineComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.MultiLine:
+                    <MultiLineComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.Email:
+                    <EmailComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.Link:
+                    <LinkComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.Checkbox:
+                    <CheckboxComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.Number:
+                    <NumberComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.File:
+                    <FileComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.DateTime:
+                    <DateTimeComp Component="@ComponentData" />
+                    break;
+
+                case ComponentType.Tabs:
+                    <TabsComp ComponentData="@ComponentData"
+                              ComponentRow="@ComponentRow"
+                              TabContainerList="@ComponentData.ChildContainers"
+                              IsRender = "true"/>
+                    break;
+
+                default:
+                    throw new NotImplementedException(@$"ComponentType: '{ComponentData?.Type}' is not implemented");
+            }
+        
+
+        @if (ComponentData?.Type != ComponentType.Tabs)
+        {
+            @*<DropZone Container="@Container"
+                      ComponentRow="@ComponentRow"
+                      ComponentIndex="@ComponentIndex"
+                      ComponentData="@ComponentData" />*@
+        }
+
+    
+</div>
+
+@code {
+    [Parameter]
+    public ComponentDto ComponentData { get; set; }
+
+    [Parameter]
+    public List<ComponentDto> ComponentRow { get; set; }
+
+    [Parameter]
+    public int ComponentIndex { get; set; }
+
+    [Parameter]
+    public string Class { get; set; }
+}

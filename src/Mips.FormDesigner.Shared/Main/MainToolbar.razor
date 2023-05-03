@@ -1,0 +1,56 @@
+﻿@inject NavigationManager Navigation;
+@inject IContainerService container
+
+<MatAppBarContainer>
+    <MatAppBar Fixed="true">
+        <MatAppBarRow>
+            <MatAppBarSection>
+                @if (Navigation.BaseUri != "/")
+                {
+                    <MatIconButton Icon="@MatIconNames.Arrow_back" OnClick="@Back"></MatIconButton>
+                }
+                <MatAppBarTitle>Form Designer</MatAppBarTitle>
+            </MatAppBarSection>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <MatIconButton Icon="@MatIconNames.Create" OnClick="@Load"></MatIconButton>
+                <MatIconButton Icon="@MatIconNames.Save" OnClick="@Save"></MatIconButton>
+                <MatIconButton Icon="@MatIconNames.Import_export" OnClick="@Export"></MatIconButton>
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+
+    @*<MatAppBarContent>
+        Content
+    </MatAppBarContent>*@
+</MatAppBarContainer>
+
+@code {
+    //[Parameter]
+    //public ContainerDto ContainerData { get; set; }
+
+    private async Task CloseFormEditorAsync()
+    {
+        await Task.CompletedTask;
+    }
+
+    private void Back()
+    {
+        Navigation.NavigateTo($"/");
+    }
+
+    private void Save()
+    {
+        container.Save();
+    }
+
+    private void Load()
+    {
+        //container.Load();
+    }
+
+    private async void Export()
+    {
+        //export = await container.Export();
+        //dialogIsOpen = true;
+    }
+}

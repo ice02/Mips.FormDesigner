@@ -1,0 +1,39 @@
+﻿@inherits WidgetComponentBase
+
+<form>
+    <div class="form-group">
+        <label for="@Component.Id"
+               class="col-form-label">
+            @Component.Label
+        </label>
+        <div class="justify-content-start">
+            @if (@ComponentInternal.IsChecked)
+            {
+                <input id="@Component.Id"
+                       type="checkbox"
+                       class="form-control" checked />
+            }
+            else
+            {
+                <input id="@Component.Id"
+                       type="checkbox"
+                       class="form-control" />
+            }
+        </div>
+    </div>
+</form>
+
+
+@code {
+    private Models.Components.CheckboxDto ComponentInternal { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ComponentInternal = Component as Models.Components.CheckboxDto;
+
+        StateHasChanged();
+
+        base.OnParametersSet();
+    }
+
+}

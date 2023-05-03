@@ -1,0 +1,43 @@
+﻿@page "/"
+
+@inject IFormsService FormsService;
+@inject NavigationManager Navigation;
+
+@if (forms == null)
+{
+    @*TODO: waiting screen*@
+    <MatH1>Loading...</MatH1>
+}
+else
+{
+<MatTable Items="@forms" class="mat-elevation-z5" AllowSelection="true" SelectionChanged="SelectionChangedEvent">
+    <MatTableHeader>
+        <th>Name</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td><span style="width:600px">@context.Name</span></td>
+    </MatTableRow>
+</MatTable>
+}
+
+@code
+{
+
+    IEnumerable<FormDto> forms = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forms = await FormsService.ListForms("");
+    }
+
+    public void SelectionChangedEvent(Object row)
+    {
+        if (row != null)
+        {
+            var r = row as FormDto;
+            Navigation.NavigateTo($"/Designer/{r.ID}");
+        }
+
+        this.StateHasChanged();
+    }
+}

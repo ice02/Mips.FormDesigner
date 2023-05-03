@@ -1,0 +1,28 @@
+﻿@inherits WidgetComponentBase
+
+<form>
+    <div class="form-group">
+        @if (Component.IsMandatory)
+        {
+            <label for="@Component.Id"
+                   class="col-form-label">
+                @Component.Label *
+            </label>
+        }
+        else
+        {
+            <label for="@Component.Id"
+                   class="col-form-label">
+                @Component.Label
+            </label>
+        }
+        <input id="@Component.Id"
+               type="url"
+               class="form-control" 
+               placeholder="http://"/>
+    </div>
+</form>
+
+@code {
+
+}

@@ -1,0 +1,58 @@
+﻿@*<div class="d-flex flex-row h-100">
+<div class="fd-field-properties-panel h-100">
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column w-100 section-header">
+            <div class="section-header-title">
+                Components
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row h-100 fd-scrollbar">
+        <div class="d-flex flex-column h-100 w-100 widget-properties-panel">
+            <div style="width: 100%;height: 10px;"></div>
+
+            @if (Widgets != null)
+            {
+                @foreach (var widget in Widgets)
+                {
+                    <PaletteWidget WidgetItem="@widget" />
+                }
+            }
+
+            <div style="width: 100%;height: 25px;"></div>
+        </div>
+    </div>
+</div>
+</div>*@
+
+
+
+        <div class="fd-palette-widgets h-100 fd-scrollbar">
+            <div style="width: 100%;height: 10px;"></div>
+
+            @if (Widgets != null)
+            {
+                @foreach (var widget in Widgets)
+                {
+                    <PaletteWidget WidgetItem="@widget" />
+                }
+            }
+
+            <div style="width: 100%;height: 25px;"></div>
+        </div>
+
+@code {
+    [Parameter]
+    public List<PaletteWidgetDto> Widgets { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (Widgets == null)
+        {
+            Widgets = PaletteWidgetSeeder.GetPaletteWidgets();
+        }
+    }
+
+}

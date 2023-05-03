@@ -1,0 +1,21 @@
+﻿@inject IContainerService container
+<div class="d-flex flex-column h-100 w-100">
+    <div class="d-flex flex-row h-100 w-100">
+        <MatTextField @bind-Value="@export" TextArea="true" FullWidth="true" Attributes="@(new Dictionary<string, object>{ ["rows"] = 50 })"></MatTextField>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public ContainerDto ContainerData { get; set; }
+
+    string export = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        export = await container.Export();
+    }
+
+}
+

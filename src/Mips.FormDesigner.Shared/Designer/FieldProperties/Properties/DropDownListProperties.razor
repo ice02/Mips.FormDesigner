@@ -1,0 +1,60 @@
+﻿@inherits PropertiesComponentBase
+
+<form class="d-flex flex-column" novalidate>
+    <DefaultPropertiesComp ComponentData="@ComponentData"
+                           OnLabelChanged="@OnLabelChangedAsync"
+                           OnWidthChanged="@OnWidthChangedAsync"
+                           OnMandatoryChanged="OnIsMandatoryChangedAsync" />
+    <div class="prop-group-box">
+
+        <div class="box-header">Specific</div>
+        <div class="padding-8">
+            <div class="form-group">
+                <label for="@ComponentDataInternal.Items-Label"
+                       class="col-form-label">
+                    Items
+                </label>
+                <Mips.FormDesigner.Designer.FieldProperties.Components.ListItems 
+                    Items="@ComponentDataInternal.Items"
+                    OnItemAdded="OnItemAdded"/>
+                @*TODO: list with add eleme*@
+            </div>
+        </div>
+        <div class="padding-8">
+            <div class="form-group">
+                <label for="@ComponentDataInternal.DefaultValue-Label"
+                       class="col-form-label">
+                    Default value
+                </label>
+                <input id="@ComponentDataInternal.DefaultValue-label"
+                       class="form-control"
+                       type="text"
+                       value="@ComponentDataInternal.DefaultValue" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    private Models.Components.DropDownListDto ComponentDataInternal { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ComponentDataInternal = ComponentData as Models.Components.DropDownListDto;
+
+        base.OnParametersSet();
+    }
+
+    public async Task OnItemAdded(ChangeEventArgs e)
+    {
+        if ((ComponentData as Models.Components.DropDownListDto).Items == null)
+        {
+            (ComponentData as Models.Components.DropDownListDto).Items = new Dictionary<int, string>();
+        }
+
+        var arg = (KeyValuePair<int, string>)e.Value;
+        (ComponentData as Models.Components.DropDownListDto).Items.Add(arg.Key, arg.Value);
+
+        await FormDesigner.StateHasChangedAsync();
+    }
+}

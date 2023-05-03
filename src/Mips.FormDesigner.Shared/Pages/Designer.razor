@@ -1,0 +1,71 @@
+﻿@page "/Designer/{formId}"
+
+
+@inject IContainerService container
+
+<div class="d-flex flex-column h-100 w-100">
+    
+    <div class="d-flex flex-row h-100">
+        <FormDesigner ContainerData="@container.ContainerData" />
+    </div>
+</div>
+
+
+@code {
+    //public ContainerDto ContainerData { get; set; }
+
+    [Parameter]
+    public string FormId { get; set; }
+
+    [Inject]
+    public IFormsService FormsService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (string.IsNullOrEmpty(FormId))
+        {
+            await RunDemoPredefinedContainer();
+        }
+        else
+        {
+            var content = await FormsService.LoadContainer(new Guid(FormId));
+            container.ContainerData = content;
+        }
+    }
+
+    private async Task RunDemoDatasource()
+    {
+
+    }
+
+    private async Task RunDemoPredefinedContainer()
+    {
+        List<List<ComponentDto>> Rows = new List<List<ComponentDto>>()
+        {
+            new List<ComponentDto>()
+            {
+                new ComponentDto(ComponentType.SingleLine)
+                {
+                    Label = "Singel Line 1",
+                    Width = 6
+                },
+                new ComponentDto(ComponentType.MultiLine)
+                {
+                    Label = "Multi Line 1",
+                    Width = 6
+                }
+            },
+            new List<ComponentDto>()
+            {
+                new ComponentDto(ComponentType.Number)
+                {
+                    Label = "Number 1",
+                    Width = 12
+                }
+            }
+        };
+        container.ContainerData = new ContainerDto(Rows);
+        await Task.CompletedTask;
+    }
+}

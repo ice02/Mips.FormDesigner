@@ -1,0 +1,43 @@
+﻿@inherits PropertiesComponentBase
+
+<form class="d-flex flex-column" novalidate>
+    <DefaultPropertiesComp ComponentData="@ComponentData"
+                           OnLabelChanged="@OnLabelChangedAsync"
+                           OnWidthChanged="@OnWidthChangedAsync" 
+                           OnMandatoryChanged="OnIsMandatoryChangedAsync"/>
+                           <div class="prop-group-box">
+
+    <div class="box-header">Specific</div>
+    <div class="padding-8">
+        <div class="form-group">
+                <label for="@ComponentDataInternal.IsChecked-Label"
+                   class="col-form-label">
+                Is Selected
+            </label>
+                <input id="@ComponentDataInternal.IsChecked-label"
+                   class="form-control"
+                   type="checkbox"
+                    @oninput="OnCheckChanged"
+                   value="@ComponentDataInternal.IsChecked" />
+        </div>
+    </div>
+</div>
+</form>
+
+@code {
+    private Models.Components.CheckboxDto ComponentDataInternal { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ComponentDataInternal = ComponentData as Models.Components.CheckboxDto;
+
+        base.OnParametersSet();
+    }
+
+    public async Task OnCheckChanged(ChangeEventArgs e)
+    {
+        (ComponentData as Models.Components.CheckboxDto).IsChecked = (bool)e.Value;
+
+        await FormDesigner.StateHasChangedAsync();
+    }
+}
